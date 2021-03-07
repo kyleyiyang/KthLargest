@@ -56,3 +56,39 @@ class KthLargest {
  * KthLargest obj = new KthLargest(k, nums);
  * int param_1 = obj.add(val);
  */
+
+//maxHeap much faster
+class KthLargest {
+    int k;
+    int[] nums;
+    Queue<Integer> heap;
+    public KthLargest(int k, int[] nums) {
+        this.k=k;
+        this.nums=nums;
+        heap=new PriorityQueue<>((x,y)->x-y);
+        for (int n:nums) {
+            heap.add(n);
+            if (heap.size()>k) heap.poll();
+        }
+    }
+    
+    public int add(int val) {
+        if (heap.isEmpty()) {
+            heap.add(val);
+        } else {
+            if (heap.size()<k) heap.add(val);
+            else if (val>heap.peek()) {
+            heap.add(val);
+            heap.poll();
+            }
+        }
+        return heap.peek();
+    }
+    
+}
+
+/**
+ * Your KthLargest object will be instantiated and called as such:
+ * KthLargest obj = new KthLargest(k, nums);
+ * int param_1 = obj.add(val);
+ */
